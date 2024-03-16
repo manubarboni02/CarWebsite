@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MainPage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table.data_table{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table.data_table, th.data_table, td.data_table {
+            border: 1px solid #ccc;
+        }
+
+        th.data_table, td.data_table {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th.data_table{
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        tr.data_table:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr.data_table:hover {
+            background-color: #ddd;
+        }
+
+        .filter-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .filter-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .filter-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .filter-button:hover {
+            background-color: #0056b3;
+        }
+		.logout-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+			margin-left:50%;
+        }
+
+        .logout-button:hover {
+            background-color: #0056b3;
+        }
+        table.insert_table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        table.insert_table, th.insert_table, td.insert_table {
+            border: 1px solid black;
+        }
+
+        th.insert_table{
+            padding: 2%;
+            text-align: center;
+            color: #fff;
+            background-color: #007BFF;
+        }
+        td.insert_table {
+            text-align:center;
+        }
+        button.table_button{
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 align="center" >Bine ati venit, <span th:text ="${currentUser.name}"/> </h1>
+
+    <form th:action="@{/edit}" method="post" th:object="${car}">
+    <table class ="insert_table" sec:authorize="hasRole('ROLE_ADMIN')">
+        <tr class ="insert_table">
+            <th class ="insert_table">Numar de inmatriculare</th>
+            <td class ="insert_table"><input type="text" th:field="*{registrationNumber}"/></td>
+            <input th:value="${currentUser.userId}" type="hidden" th:attr="name='userID'" /></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Marca</th>
+            <td class ="insert_table"><input type="text" th:field="*{carManufacturer}"/></td>
+        </tr>
+        <tr>
+            <th class ="insert_table">Modelul</th>
+            <td class ="insert_table"><input type="text" th:field="*{carModel}"/></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Culoarea</th>
+            <td class ="insert_table"><input type="text" th:field="*{carColor}"/></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Anul fabricatiei</th>
+            <td class ="insert_table"><input type="text" th:field="*{fabricationYear}"/></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Capacitatea cilindrica</th>
+            <td class ="insert_table"><input type="text" th:field="*{cylinderCapacity}"/></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Tipul de combustibil	</th>
+                <td class ="insert_table">
+                    <select th:field="*{fuelType}" id="fueltype" >
+                        <option value="Motorina">Motorina</option>
+                        <option value="Benzina">Benzina</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Electric">Electric</option>
+                    </select>
+                </td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Puterea</th>
+            <td class ="insert_table"><input type="text" th:field="*{carPower}"/></td>
+        </tr>
+        <tr class ="insert_table">
+            <th class ="insert_table">Cuplul</th>
+            <td class ="insert_table"><input type="text" th:field="*{engineCouple}"/></td>
+        </tr >
+        <tr class ="insert_table">
+            <th class ="insert_table">Volumul portbagajului	</th>
+            <td class ="insert_table"><input type="text" th:field="*{trunkVolume}"/></td>
+        </tr >
+        <tr class ="insert_table">
+            <th class ="insert_table">Pretul</th>
+            <td class ="insert_table"><input type="text" th:field="*{carPrice}"/></td>
+        </tr>
+        <table class ="insert_table">
+            <tr class ="insert_table">
+
+                <td class ="insert_table"><button class="table_button" type="submit" name="action"  value="add">Adauga o masina noua</button></td>
+                <td class ="insert_table"><button class="table_button" type="submit" name="action"  value="modify">Modifica o masina</button></td>
+                <td class ="insert_table"><button class="table_button" type="submit" name="action"  value="delete">Sterge o masina</button></td>
+            </tr>
+        </table>
+    </table>
+    </form>
+
+    <div th:if="${param.notAdded}" align="center">
+        Could not add this car to the database.
+    </div>
+    <div th:if="${param.notModified}" align="center">
+        Could not modify that car in the database.
+    </div>
+    <div th:if="${param.notDeleted}" align="center">
+        Could not delete that car from thedatabase.
+    </div>
+
+    <table class ="data_table" id="data-table">
+        <tr class ="data_table">
+            <th class ="data_table">Numar de inmatriculare</th>
+            <th class ="data_table">Marca</th>
+            <th class ="data_table">Modelul</th>
+            <th class ="data_table">Culoarea</th>
+            <th class ="data_table">Anul fabricatiei</th>
+            <th class ="data_table">Capacitatea cilindrica</th>
+            <th class ="data_table">Tipul de combustibil</th>
+            <th class ="data_table">Puterea</th>
+            <th class ="data_table">Cuplul</th>
+            <th class ="data_table">Volumul portbagajului</th>
+            <th class ="data_table">Pretul</th>
+        </tr>
+        <tr class ="data_table" th:each="car : ${cars}">
+            <td class ="data_table" th:text="${car.registrationNumber}"></td>
+            <td class ="data_table" th:text="${car.carManufacturer}"></td>
+            <td class ="data_table" th:text="${car.carModel}"></td>
+            <td class ="data_table" th:text="${car.carColor}"></td>
+            <td class ="data_table" th:text="${car.fabricationYear}"></td>
+            <td class ="data_table" th:text="${car.cylinderCapacity}"></td>
+            <td class ="data_table" th:text="${car.fuelType}"></td>
+            <td class ="data_table" th:text="${car.carPower}"></td>
+            <td class ="data_table" th:text="${car.engineCouple}"></td>
+            <td class ="data_table" th:text="${car.trunkVolume}"></td>
+            <td class ="data_table" th:text="${car.carPrice}"></td>
+        </tr>
+    </table>
+
+<form name="filterButton" th:action="@{/show}" method="get">
+    <div class="filter-container">
+        <input class="filter-input" type="text" id="filter1" name="filter1" placeholder="Marca">
+        <input class="filter-input" type="text" id="filter2" name="filter2" placeholder="Culoare">
+        <input class="filter-input" type="text" id="filter3" name="filter3" placeholder="Tip combustibil">
+        <input type="submit" class="filter-button" value="Filtreaza">
+    </div>
+</form>
+
+    <form name="logoutForm" th:action="@{/logout}" method="post">
+        <input class ="logout-button" type="submit" value="Logout">
+    </form>
+
+</body>
+</html>
